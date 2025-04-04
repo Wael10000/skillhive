@@ -25,7 +25,7 @@ exports.login = async (req, res) => {
             status: 'success',
             data: {
                 email: user.email,
-                username: user.username,
+                username: user.username
             }
         });
     } catch (err) {
@@ -34,4 +34,5 @@ exports.login = async (req, res) => {
             message: err.message
         });
     }
+    
 }

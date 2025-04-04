@@ -9,22 +9,21 @@ const {
     likeComment,
     unlikeComment
 } = require('../controllers/CommentsController');
-const { validateComment, handleValidationErrors } = require('../validators/commentsValidator');
-const { authMiddleware } = require('../middleware/auth');
+const { validateComment, handleValidationErrors } = require('../middlewares/CommentsValidator');
 
 
-router.post('/:forumId', authMiddleware, validateComment, handleValidationErrors, createComment);
+router.post('/:forumId', validateComment, handleValidationErrors, createComment);
 
 router.get('/forum/:forumId', getCommentsByForum);
 
 router.get('/:id', getCommentById);
 
-router.put('/:id', authMiddleware, validateComment, handleValidationErrors, updateComment);
+router.put('/:id', validateComment, handleValidationErrors, updateComment);
 
-router.delete('/:id', authMiddleware, deleteComment);
+router.delete('/:id', deleteComment);
 
-router.post('/:id/like', authMiddleware, likeComment);
+router.post('/:id/like', likeComment);
 
-router.post('/:id/unlike', authMiddleware, unlikeComment);
+router.post('/:id/unlike', unlikeComment);
 
 module.exports = router;

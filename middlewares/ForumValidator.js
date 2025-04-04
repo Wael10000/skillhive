@@ -5,11 +5,10 @@ exports.validateForum = [
   body("title")
     .notEmpty().withMessage("Title is required")
     .isLength({ min: 5, max: 200 }).withMessage("Title must be between 5 and 200 characters"),
-  
   body("description")
     .notEmpty().withMessage("Description is required")
     .isLength({ min: 10, max: 2000 }).withMessage("Description must be between 10 and 2000 characters"),
-  
+
   body("category")
     .notEmpty().withMessage("Category is required")
     .isIn(["General", "Technology", "Science", "Entertainment", "Education", "Other"]).withMessage("Invalid category"),

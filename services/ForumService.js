@@ -1,6 +1,6 @@
 const Forum = require('../models/Forum');
-const Comment = require('../models/Comment');
-const User = require('../models/User');
+const Comment = require('../models/Comments');
+const User = require('../models/authModel');
 
 // Create a new forum post
 const createForum = async ({ title, description, userId, category, tags }) => {

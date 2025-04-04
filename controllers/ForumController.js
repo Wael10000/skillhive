@@ -3,26 +3,24 @@ const Forum = require('../models/Forum');
 const { validationResult } = require('express-validator');
 
 // Create a new forum post
-exports.createForum = async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
 
-    try {
-        const forum = new Forum({
-            title: req.body.title,
-            description: req.body.description,
-            userId: req.user.id, // Assuming user is authenticated
-            category: req.body.category,
-            tags: req.body.tags,
-        });
-        await forum.save();
-        res.status(201).json(forum);
+exports.createForum = async (req, res) => {
+  
+    const {title,description,userId,category,tags} = req.body;
+  
+    try {  
+  
+        const forum = new Forum({...req.body});
+  
+        forum.save();
+      res.status(201).send("Created")
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
+      console.error("error");
+      res.status(500).send(error);
     }
-};
+  
+  }
+
 
 // Get all forums
 exports.getAllForums = async (req, res) => {
@@ -56,9 +54,6 @@ exports.updateForum = async (req, res) => {
         if (!forum) {
             return res.status(404).json({ message: 'Forum not found' });
         }
-        if (forum.userId.toString() !== req.user.id) {
-            return res.status(403).json({ message: 'Unauthorized' });
-        }
         Object.assign(forum, req.body);
         forum.updatedAt = Date.now();
         await forum.save();
@@ -74,9 +69,6 @@ exports.deleteForum = async (req, res) => {
         const forum = await Forum.findById(req.params.id);
         if (!forum) {
             return res.status(404).json({ message: 'Forum not found' });
-        }
-        if (forum.userId.toString() !== req.user.id) {
-            return res.status(403).json({ message: 'Unauthorized' });
         }
         await forum.deleteOne();
         res.json({ message: 'Forum deleted successfully' });

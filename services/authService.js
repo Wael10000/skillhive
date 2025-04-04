@@ -1,6 +1,7 @@
 const User = require('../models/authModel');
 const bcrypt = require('bcrypt');
 
+
 exports.signup = async (data) => {
  try {
  

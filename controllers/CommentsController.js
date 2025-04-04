@@ -1,4 +1,4 @@
-const Comment = require('../models/Comment');
+const Comment = require('../models/Comments');
 const Forum = require('../models/Forum');
 const { validationResult } = require('express-validator');
 
@@ -10,8 +10,8 @@ exports.createComment = async (req, res) => {
     }
 
     try {
-        const { text, forumId, parentComment } = req.body;
-        const userId = req.user.id; // Assuming user is authenticated
+        // Extract userId from the request body instead of req.user
+        const { text, forumId, parentComment, userId } = req.body;
 
         const forum = await Forum.findById(forumId);
         if (!forum) {
@@ -31,6 +31,7 @@ exports.createComment = async (req, res) => {
         res.status(500).json({ message: 'Server error', error });
     }
 };
+
 
 // Get all comments for a specific forum
 exports.getCommentsByForum = async (req, res) => {
